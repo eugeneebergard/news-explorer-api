@@ -1,4 +1,4 @@
-# Mesto 
+# News Explorer
 
 ### Version 1.0.0
 
