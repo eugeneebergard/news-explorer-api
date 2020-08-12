@@ -9,12 +9,12 @@ const { usersRouter, articlesRouter } = require('./routes/index.js');
 
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { rateLimiterUsingThirdParty } = require('./middlewares/rateLimit');
+const rateLimiterUsingThirdParty = require('./middlewares/rateLimit');
 
 const { login, createUser } = require('./controllers/users');
 
 const NotFound = require('./errors/notFound');
-const ServerError = require('./errors/serverError');
+const { serverError } = require('./errors/serverError');
 
 const { PORT = 3000, DB_URL } = process.env;
 
@@ -67,7 +67,7 @@ app.use((req, res, next) => {
 
 app.use(errorLogger);
 app.use(errors());
-app.use(ServerError);
+app.use(serverError);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

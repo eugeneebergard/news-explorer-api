@@ -35,7 +35,7 @@ const articlesSchema = new mongoose.Schema({
     },
     required: true,
   },
-  avatar: {
+  image: {
     type: String,
     validate: {
       validator: (v) => validator.isURL(v),
@@ -50,4 +50,4 @@ const articlesSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('card', articlesSchema);
+module.exports = mongoose.model('article', articlesSchema);
