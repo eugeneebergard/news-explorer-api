@@ -14,8 +14,8 @@ $ npm run start
 $ npm run dev
 ```
 
-## Домен: [domen](URL)
-## Публичный IP адрес: [ip](ip)
+## Домен: [api.news-explorer-ee.tk](www.api.news-explorer-ee.tk)
+## Публичный IP адрес: [178.154.254.118](178.154.254.118)
 
 ## О проекте: 
 
