@@ -23,11 +23,12 @@ module.exports.createArticle = (req, res, next) => {
     .then((articles) => res.send({ data: articles }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequest('Сервер не смог обработать запрос');
+        throw new BadRequest('Некорректная ссылка');
       } else {
         next(err);
       }
-    });
+    })
+    .catch(next);
 };
 
 module.exports.deleteArticle = (req, res, next) => {
