@@ -16,7 +16,7 @@ const { login, createUser } = require('./controllers/users');
 const NotFound = require('./errors/notFound');
 const { serverError } = require('./errors/serverError');
 
-const { PORT = 3000, DB_URL } = process.env;
+const { PORT = 3000, DB_URL = 'mongodb://localhost:27017/diplomadb' } = process.env;
 
 const app = express();
 
