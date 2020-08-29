@@ -2,10 +2,16 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const helmet = require('helmet');
 const { Joi, celebrate, errors } = require('celebrate');
 
 const { usersRouter, articlesRouter } = require('./routes/index.js');
+
+const corsOptions = {
+  origin: ['https://api.news-explorer-ee.tk', 'http://localhost:8080', 'https://eugeneebergard.github.io/news-explorer-frontend'],
+  credential: true,
+};
 
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -70,6 +76,7 @@ app.use((req, res, next) => {
 app.use(errorLogger);
 app.use(errors());
 app.use(serverError);
+app.use(cors(corsOptions));
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
