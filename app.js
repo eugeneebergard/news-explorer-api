@@ -21,21 +21,9 @@ const { url } = require('./config/mongoUrl');
 
 const { PORT = 3000 } = process.env;
 
-const corsOptions = {
-  origin: [
-    'http://localhost:8080',
-    'http://newsapi.org',
-    'http://news-explorer-ee.tk', 'https://news-explorer-ee.tk',
-    'http://www.news-explorer-ee.tk', 'https://www.news-explorer-ee.tk',
-    'https://eugeneebergard.github.io/news-explorer-frontend/',
-  ],
-  credentials: true,
-  methods: 'GET,POST,DELETE',
-};
-
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
