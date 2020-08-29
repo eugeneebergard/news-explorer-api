@@ -38,10 +38,6 @@ mongoose.connect(url, {
 app.use(requestLogger);
 
 app.post('/signup',
-  (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Credentials', 'true');
-  },
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
