@@ -37,13 +37,7 @@ mongoose.connect(url, {
 
 app.use(requestLogger);
 
-app.post('/signup', function(req, res) {
-  res.set('Access-Control-Allow-Origin', '*')
-  res.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
-  res.set('Access-Control-Allow-Headers', 'Content-Type')
-  res.send(JSON.stringify({
-    message: 'This is public info'
-  }),
+app.post('/signup',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -54,8 +48,7 @@ app.post('/signup', function(req, res) {
   rateLimiterUsingThirdParty,
   createUser);
 
-app.post(
-  '/signin',
+app.post('/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -63,8 +56,7 @@ app.post(
     }),
   }),
   rateLimiterUsingThirdParty,
-  login,
-);
+  login);
 
 app.use('/users', auth, rateLimiterUsingThirdParty, usersRouter);
 app.use('/articles', auth, rateLimiterUsingThirdParty, articlesRouter);
