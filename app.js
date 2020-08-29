@@ -37,8 +37,7 @@ mongoose.connect(url, {
 
 app.use(requestLogger);
 
-app.post(
-  '/signup',
+app.post('/signup',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -48,7 +47,9 @@ app.post(
   }),
   rateLimiterUsingThirdParty,
   createUser,
-);
+  (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+  });
 
 app.post(
   '/signin',
