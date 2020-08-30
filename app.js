@@ -23,12 +23,23 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
+
 const whitelist = [
   'http://localhost:8080',
   'http://news-explorer-ee.tk',
   'https://news-explorer-ee.tk',
   'http://www.news-explorer-ee.tk',
   'https://www.news-explorer-ee.tk',
+  'http://api.news-explorer-ee.tk',
+  'https://api.news-explorer-ee.tk',
+  'http://www.api.news-explorer-ee.tk',
+  'https://www.api.news-explorer-ee.tk',
   'https://eugeneebergard.github.io/news-explorer-frontend'];
 
 const corsOptions = {
@@ -37,20 +48,13 @@ const corsOptions = {
   methods: 'GET,POST,DELETE',
 };
 
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-mongoose.connect(url, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
-
 app.use(requestLogger);
 
-app.post('/signup', cors(corsOptions),
+app.post('/signup',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -61,7 +65,7 @@ app.post('/signup', cors(corsOptions),
   rateLimiterUsingThirdParty,
   createUser);
 
-app.post('/signin', cors(corsOptions),
+app.post('/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -71,8 +75,8 @@ app.post('/signin', cors(corsOptions),
   rateLimiterUsingThirdParty,
   login);
 
-app.use('/users', cors(corsOptions), auth, rateLimiterUsingThirdParty, usersRouter);
-app.use('/articles', cors(corsOptions), auth, rateLimiterUsingThirdParty, articlesRouter);
+app.use('/users', auth, rateLimiterUsingThirdParty, usersRouter);
+app.use('/articles', auth, rateLimiterUsingThirdParty, articlesRouter);
 
 app.use((req, res, next) => {
   next(new NotFound('Не найдено'));
