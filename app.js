@@ -23,7 +23,15 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-app.use(cors());
+const whitelist = [
+  'http://localhost:8080/',
+  'http://news-explorer-ee.tk',
+  'https://news-explorer-ee.tk',
+  'http://www.news-explorer-ee.tk',
+  'https://www.news-explorer-ee.tk',
+  'https://eugeneebergard.github.io/news-explorer-frontend/'];
+
+app.use(cors(whitelist));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
