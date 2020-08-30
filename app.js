@@ -31,7 +31,17 @@ const whitelist = [
   'https://www.news-explorer-ee.tk',
   'https://eugeneebergard.github.io/news-explorer-frontend/'];
 
-app.use(cors(whitelist));
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
