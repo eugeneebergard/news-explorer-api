@@ -24,21 +24,17 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const whitelist = [
-  'http://localhost:8080/',
+  'http://localhost:8080',
   'http://news-explorer-ee.tk',
   'https://news-explorer-ee.tk',
   'http://www.news-explorer-ee.tk',
   'https://www.news-explorer-ee.tk',
-  'https://eugeneebergard.github.io/news-explorer-frontend/'];
+  'https://eugeneebergard.github.io/news-explorer-frontend'];
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: whitelist,
+  credentials: true,
+  methods: 'GET,POST,DELETE',
 };
 
 app.use(cors(corsOptions));
