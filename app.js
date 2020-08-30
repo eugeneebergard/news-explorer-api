@@ -37,7 +37,6 @@ const corsOptions = {
   methods: 'GET,POST,DELETE',
 };
 
-app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,7 +50,7 @@ mongoose.connect(url, {
 
 app.use(requestLogger);
 
-app.post('/signup',
+app.post('/signup', cors(corsOptions),
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -62,7 +61,7 @@ app.post('/signup',
   rateLimiterUsingThirdParty,
   createUser);
 
-app.post('/signin',
+app.post('/signin', cors(corsOptions),
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -72,8 +71,8 @@ app.post('/signin',
   rateLimiterUsingThirdParty,
   login);
 
-app.use('/users', auth, rateLimiterUsingThirdParty, usersRouter);
-app.use('/articles', auth, rateLimiterUsingThirdParty, articlesRouter);
+app.use('/users', cors(corsOptions), auth, rateLimiterUsingThirdParty, usersRouter);
+app.use('/articles', cors(corsOptions), auth, rateLimiterUsingThirdParty, articlesRouter);
 
 app.use((req, res, next) => {
   next(new NotFound('Не найдено'));
