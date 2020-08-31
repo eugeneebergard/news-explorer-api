@@ -61,8 +61,7 @@ app.post('/signup',
       password: Joi.string().required().min(8),
       name: Joi.string().required().min(2).max(30),
     }),
-  }),
-  rateLimiterUsingThirdParty,
+  }), // rateLimiterUsingThirdParty,
   createUser);
 
 app.post('/signin',
@@ -71,8 +70,7 @@ app.post('/signin',
       email: Joi.string().required().email(),
       password: Joi.string().required().min(8),
     }),
-  }),
-  rateLimiterUsingThirdParty,
+  }), // rateLimiterUsingThirdParty,
   login);
 
 app.use('/users', auth, rateLimiterUsingThirdParty, usersRouter);
