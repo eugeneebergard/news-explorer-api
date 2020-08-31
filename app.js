@@ -73,8 +73,8 @@ app.post('/signin',
   }), // rateLimiterUsingThirdParty,
   login);
 
-app.use('/users', auth, rateLimiterUsingThirdParty, usersRouter);
-app.use('/articles', auth, rateLimiterUsingThirdParty, articlesRouter);
+app.use('/users', auth, /* rateLimiterUsingThirdParty, */ usersRouter);
+app.use('/articles', auth, /* rateLimiterUsingThirdParty, */ articlesRouter);
 
 app.use((req, res, next) => {
   next(new NotFound('Не найдено'));
