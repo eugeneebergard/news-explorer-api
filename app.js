@@ -30,25 +30,7 @@ mongoose.connect(url, {
   useUnifiedTopology: true,
 });
 
-const whitelist = [
-  'http://localhost:8080',
-  'http://news-explorer-ee.tk',
-  'https://news-explorer-ee.tk',
-  'http://www.news-explorer-ee.tk',
-  'https://www.news-explorer-ee.tk',
-  'http://api.news-explorer-ee.tk',
-  'https://api.news-explorer-ee.tk',
-  'http://www.api.news-explorer-ee.tk',
-  'https://www.api.news-explorer-ee.tk',
-  'https://eugeneebergard.github.io/news-explorer-frontend'];
-
-const corsOptions = {
-  origin: whitelist,
-  credentials: true,
-  methods: 'GET,POST,DELETE',
-};
-
-app.use(cors(corsOptions));
+app.use(cors({ credentials: true, origin: true }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,7 +43,7 @@ app.post('/signup',
       password: Joi.string().required().min(8),
       name: Joi.string().required().min(2).max(30),
     }),
-  }), // rateLimiterUsingThirdParty,
+  }), rateLimiterUsingThirdParty,
   createUser);
 
 app.post('/signin',
@@ -70,11 +52,11 @@ app.post('/signin',
       email: Joi.string().required().email(),
       password: Joi.string().required().min(8),
     }),
-  }), // rateLimiterUsingThirdParty,
+  }), rateLimiterUsingThirdParty,
   login);
 
-app.use('/users', auth, /* rateLimiterUsingThirdParty, */ usersRouter);
-app.use('/articles', auth, /* rateLimiterUsingThirdParty, */ articlesRouter);
+app.use('/users', auth, rateLimiterUsingThirdParty, usersRouter);
+app.use('/articles', auth, rateLimiterUsingThirdParty, articlesRouter);
 
 app.use((req, res, next) => {
   next(new NotFound('Не найдено'));
